@@ -34,6 +34,11 @@ export const getNamespaceVectorStore = async (
         apiKey = env.DEFAULT_PINECONE_API_KEY;
         indexHost = env.DEFAULT_PINECONE_HOST;
       } else if (config.provider === "MANAGED_PINECONE") {
+        if (!env.SECONDARY_PINECONE_API_KEY || !env.SECONDARY_PINECONE_HOST) {
+          throw new Error(
+            "SECONDARY_PINECONE_API_KEY and SECONDARY_PINECONE_HOST environment variables are required for MANAGED_PINECONE provider but are not configured.",
+          );
+        }
         apiKey = env.SECONDARY_PINECONE_API_KEY;
         indexHost = env.SECONDARY_PINECONE_HOST;
       } else {

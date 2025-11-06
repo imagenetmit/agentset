@@ -89,6 +89,12 @@ export const callVercelApi = async <T>(
   method: "GET" | "POST" | "DELETE",
   body?: any,
 ) => {
+  if (!env.VERCEL_TEAM_ID || !env.VERCEL_API_TOKEN) {
+    throw new Error(
+      "VERCEL_TEAM_ID and VERCEL_API_TOKEN environment variables are required for Vercel API operations but are not configured.",
+    );
+  }
+
   const url = new URL(`https://api.vercel.com${path}`);
   const searchParams = url.searchParams;
   searchParams.set("teamId", env.VERCEL_TEAM_ID);
